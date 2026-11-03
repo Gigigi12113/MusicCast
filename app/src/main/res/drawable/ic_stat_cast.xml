@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 通知栏小图标：单色 Wi-Fi + 音符剪影 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Wi-Fi 弧 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M15.5,15.2m-2.1,0a2.1,2.1 0 1,0 4.2,0a2.1,2.1 0 1,0 -4.2,0" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M15.5,10.4c-2.2,0 -4.2,0.9 -5.6,2.3l1.6,1.6c1.1,-1.1 2.5,-1.7 4,-1.7s2.9,0.6 4,1.7l1.6,-1.6c-1.4,-1.4 -3.4,-2.3 -5.6,-2.3z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M15.5,5.6c-3.5,0 -6.7,1.4 -9,3.7l1.6,1.6c2,-2 4.6,-3.1 7.4,-3.1s5.4,1.1 7.4,3.1l1.6,-1.6c-2.3,-2.3 -5.5,-3.7 -9,-3.7z" />
+    <!-- 音符 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M5.6,18.9c1.1,0 2,-0.8 2,-1.8s-0.9,-1.8 -2,-1.8 -2,0.8 -2,1.8 0.9,1.8 2,1.8z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M7.2,17.1V5.6l1.5,0.5v2.2L13,9.7v1.8l-4.3,-1.2v6.8z" />
+</vector>

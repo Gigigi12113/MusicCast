@@ -1,0 +1,21 @@
+#!/data/user/0/app.dsh.mobile/files/engine/bin/bash
+# gradle 8.9 wrapper(独立 GRADLE_USER_HOME,避免与 9.8.2 instrumentation 缓存冲突)
+set -e
+DIST=$HOME/gradle-dist/gradle-8.9
+export JAVA_HOME=${JAVA_HOME:-/data/user/0/app.dsh.mobile/files/engine/extensions/openjdk-17/lib/jvm/java-17-openjdk}
+export LD_LIBRARY_PATH="/data/user/0/app.dsh.mobile/files/engine/extensions/openjdk-17/lib:/data/user/0/app.dsh.mobile/files/engine/extensions/android-buildtools/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+JAVACMD="$JAVA_HOME/bin/java"
+[ -x "$JAVACMD" ] || { echo "gradle89: no java at $JAVACMD" >&2; exit 1; }
+
+export TMPDIR="${TMPDIR:-$HOME/tmp}"
+mkdir -p "$TMPDIR"
+export GRADLE_USER_HOME="$HOME/.gradle89-home"
+mkdir -p "$GRADLE_USER_HOME"
+
+exec "$JAVACMD" \
+  -Xmx${GRADLE_XMX:-1024m} \
+  -Djava.io.tmpdir="$TMPDIR" \
+  -Dorg.gradle.appname=gradle \
+  -jar "$DIST/lib/gradle-gradle-cli-main-8.9.jar" \
+  "$@"

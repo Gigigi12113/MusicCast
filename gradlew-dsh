@@ -1,0 +1,29 @@
+#!/data/user/0/app.dsh.mobile/files/engine/bin/bash
+# gradle wrapper for bionic/toybox: toybox xargs 不剥引号，gradle 官方脚本里
+# eval "set -- $(... | xargs -n1 | sed ...)" 会把引号字面量传给 java，
+# 报 "Could not find or load main class \"-Xmx64m\""。
+set -e
+
+BT=/data/user/0/app.dsh.mobile/files/engine/extensions/android-buildtools
+export JAVA_HOME=${JAVA_HOME:-/data/user/0/app.dsh.mobile/files/engine/extensions/openjdk-17/lib/jvm/java-17-openjdk}
+export LD_LIBRARY_PATH="/data/user/0/app.dsh.mobile/files/engine/extensions/openjdk-17/lib:$BT/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+# Termux JDK 硬编码了 /data/data/com.termux/... tmpdir（本机不可见），必须显式覆盖
+export TMPDIR="${TMPDIR:-$HOME/tmp}"
+mkdir -p "$TMPDIR"
+
+JAVACMD="$JAVA_HOME/bin/java"
+[ -x "$JAVACMD" ] || { echo "gradlew: no java at $JAVACMD" >&2; exit 1; }
+
+AGENT="$BT/opt/gradle/lib/agents/gradle-instrumentation-agent-9.8.2.jar"
+MAIN_JAR="$BT/opt/gradle/lib/gradle-gradle-cli-main-9.8.2.jar"
+
+[ -n "${GRADLE_USER_HOME:-}" ] || export GRADLE_USER_HOME="$HOME/.gradle-home"
+mkdir -p "$GRADLE_USER_HOME" 2>/dev/null || true
+
+exec "$JAVACMD" \
+  -Xmx${GRADLE_XMX:-1024m} \
+  -Djava.io.tmpdir="$TMPDIR" \
+  -Dorg.gradle.appname=gradle \
+  -jar "$MAIN_JAR" \
+  "$@"
